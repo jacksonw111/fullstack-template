@@ -3,11 +3,13 @@ import logging
 import secrets
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from sqlalchemy.dialects.postgresql import insert
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.openapi.utils import get_openapi
 
+from src.models.permission import PermissionType, RolePermission
 from src.user.service import UserService
 from src.extensions import Extensions
 
@@ -21,7 +23,22 @@ async def lifespan(app: FastAPI):
     session: AsyncSession = None
     try:
         session = await anext(Extensions.db(False))
-        await UserService(session).initialize()
+        role_id = await UserService(session, None).initialize()
+        logging.info(f"role_id:{role_id}")
+
+        # 预置 RolePermission 数据
+        permissions = [
+            {"role_id": role_id, "permission": permission}
+            for permission in PermissionType
+        ]
+
+        stmt = insert(RolePermission).values(permissions)
+        stmt = stmt.on_conflict_do_nothing(index_elements=["role_id", "permission"])
+
+        await session.exec(stmt)
+        await session.commit()
+
+        logging.info("已成功预置 RolePermission 数据")
         # 启动调度器
         # scheduler.start()
     except Exception as e:

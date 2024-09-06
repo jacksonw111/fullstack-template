@@ -6,12 +6,13 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 import jwt
 from sqlmodel import select
-from src.auth.schema import CurrentUserResponse, RefreshToken
+from src.auth.schema import CurrentUser, RefreshToken
 from src.libs.passport import verify_password
 from src.base.service import BaseService
 from src.conf import settings
 from passlib.context import CryptContext
 
+from src.models.permission import RolePermission
 from src.models.role import Role
 from src.models.user import User, UserStatus
 
@@ -150,7 +151,17 @@ class AuthService(BaseService):
         if not user_role:
             raise HTTPException(status_code=404, detail=f"user not found. id={user_id}")
         user, role = user_role
-        return CurrentUserResponse(**user.model_dump(), current_role=role)
+        permissions = (
+            await self.session.exec(
+                select(RolePermission).where(RolePermission.role_id == role.id)
+            )
+        ).all()
+
+        return CurrentUser(
+            **user.model_dump(),
+            current_role=role,
+            permissions=[permission.permission for permission in permissions],
+        )
 
 
 async def get_current_active_user(
@@ -164,7 +175,7 @@ async def get_current_active_user(
         payload = auth_service.verify_token(token)
         user_id = payload.get("user_id")
 
-        user: User = await auth_service.get_user_by_id(user_id)
+        user = await auth_service.get_user_by_id(user_id)
 
         return user
     except jwt.PyJWTError:

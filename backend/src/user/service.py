@@ -52,7 +52,7 @@ class UserService(BaseService):
                         current_role_id=role.id,
                     )
                 )
-
+            return role.id
         except Exception as e:
             logging.error(e)
 
@@ -61,7 +61,7 @@ class UserService(BaseService):
         base64_salt = base64.b64encode(salt).decode()
         hashed_password = hash_password(user_create.password, salt)
         base64_password_hashed = base64.b64encode(hashed_password).decode()
-        async with self.session.begin():
+        try:
             user = User(
                 name=user_create.name,
                 email=user_create.email,
@@ -78,6 +78,9 @@ class UserService(BaseService):
                 UserRole(role_id=user_create.current_role_id, user_id=user.id)
             )
             await self.session.commit()
+        except Exception as e:
+            logging.error(e)
+            await self.session.rollback()
 
     async def get_by(self, id: UUID):
         user = await self.session.get(User, id)
@@ -88,7 +91,7 @@ class UserService(BaseService):
         return user
 
     async def all(self, name: str = None, skip: int = 0, limit: int = 10):
-        statement = select(User)
+        statement = select(User, Role).where(User.current_role_id == Role.id)
         total_statement = select(func.count()).select_from(User)
         if name is not None:
             statement = statement.where(col(User.name).like(f"{name}%"))
@@ -96,11 +99,14 @@ class UserService(BaseService):
 
         statement = statement.offset(skip * limit)
         statement = statement.limit(limit)
-        users = (await self.session.exec(statement)).all()
+        user_and_roles = (await self.session.exec(statement)).all()
         total = (await self.session.exec(total_statement)).one()
         return {
             "total": total,
-            "users": [UserResponse.model_validate(user) for user in users],
+            "users": [
+                UserResponse(**user.model_dump(), role=user_role)
+                for (user, user_role) in user_and_roles
+            ],
         }
 
     async def update(self, id: UUID, user_update: UserUpdate):

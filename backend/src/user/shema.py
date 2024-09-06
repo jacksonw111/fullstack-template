@@ -3,15 +3,19 @@ from uuid import UUID
 from pydantic import EmailStr
 from sqlmodel import Field, SQLModel
 
+from src.models.role import Role
+
 
 class UserSchema(SQLModel):
     name: str = Field(
         regex=r"^[a-zA-Z0-9_-]{3,16}$",
-        description="用户名必须是3-16个字符，只能包含字母、数字、下划线和连字符",
+        description="username must be 3-16 characters long, only letters, numbers, underscores, and hyphens are allowed",  # noqa
     )
     gender: str
-    email: EmailStr = Field(description="必须是有效的电子邮件地址")
-    password: str = Field(min_length=8, description="密码长度必须至少为8个字符")
+    email: EmailStr = Field(description="Must be a valid email address")
+    password: str = Field(
+        min_length=8, description="Password must be at least 8 characters long"
+    )
     current_role_id: UUID
 
 
@@ -32,3 +36,4 @@ class UserResponse(SQLModel):
     status: str
     created_at: datetime
     updated_at: datetime
+    role: Role

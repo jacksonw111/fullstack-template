@@ -1,0 +1,36 @@
+{
+  "name": "rsbuild-react-ts",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "npx rsbuild dev --open --env-mode development",
+    "build": "rsbuild build",
+    "preview": "rsbuild preview"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.54.1",
+    "@tanstack/react-table": "^8.20.5",
+    "antd": "^5.20.3",
+    "axios": "^1.7.5",
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.5.2",
+    "lucide-react": "^0.438.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.1",
+    "svgmagic": "^1.1.8",
+    "zustand": "^4.5.5"
+  },
+  "devDependencies": {
+    "@rsbuild/core": "1.0.1-rc.0",
+    "@rsbuild/plugin-react": "1.0.1-rc.0",
+    "@types/node": "^22.5.1",
+    "@types/react": "^18.3.4",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.41",
+    "postcss-loader": "^8.1.1",
+    "tailwindcss": "^3.4.10",
+    "typescript": "^5.5.2"
+  }
+}

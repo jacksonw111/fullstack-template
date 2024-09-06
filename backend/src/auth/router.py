@@ -1,7 +1,7 @@
 from typing import Annotated
 from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
-from src.auth.schema import RefreshToken
+from src.auth.schema import LogoutRequest, RefreshToken
 
 from src.auth.service import AuthService, get_current_active_user
 from src.models.user import User
@@ -27,12 +27,12 @@ async def refresh(
 
 @api.put("/logout")
 async def logout(
-    access_token: str, refresh_token: str, service: Annotated[AuthService, Depends()]
+    logout_request: LogoutRequest, service: Annotated[AuthService, Depends()]
 ):
-    await service.logout(access_token, refresh_token)
+    await service.logout(logout_request.access_token, logout_request.refresh_token)
 
 
-@api.get("/current_account")
+@api.get("/current-account")
 async def get_current_account(
     current_account: Annotated[User, Depends(get_current_active_user)]
 ):

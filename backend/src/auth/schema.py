@@ -10,7 +10,12 @@ class RefreshToken(SQLModel):
     refresh_token: str
 
 
-class CurrentUserResponse(SQLModel):
+class LogoutRequest(SQLModel):
+    access_token: str
+    refresh_token: str
+
+
+class CurrentUser(SQLModel):
     name: str
     email: EmailStr
     gender: str
@@ -20,3 +25,4 @@ class CurrentUserResponse(SQLModel):
     last_active_at: Optional[datetime] = None
     status: str
     initialized_at: Optional[datetime] = None
+    permissions: list[str] = []
