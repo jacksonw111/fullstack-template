@@ -25,6 +25,7 @@ interface Action {
   setRefreshToken: (lang: State["refresh_token"]) => void;
   clean: () => void;
   toggleCollapsed: () => void;
+  setCurrentUser: (currentUser: CurrentUser) => void;
 }
 
 export const useGlobalStore = create<State & Action>()(
@@ -45,6 +46,10 @@ export const useGlobalStore = create<State & Action>()(
           setRefreshToken: (refresh_token: State["refresh_token"]) =>
             set({
               refresh_token,
+            }),
+          setCurrentUser: (current_user: State["current_user"]) =>
+            set({
+              current_user,
             }),
           toggleCollapsed() {
             set((state) => ({

@@ -10,10 +10,10 @@ const theme: ThemeConfig = {
       activeBarBorderWidth: 0,
       itemBg: "transparent",
       itemActiveBg: "#f87171", // 激活时背景颜色
-      itemHoverBg: "#f87171", // 背景颜色
+      // itemHoverBg: "#f87171", // 背景颜色
       itemHoverColor: "#ffffff", // 文字颜色
-      itemSelectedBg: "#f87171", //
-      itemSelectedColor: "#ffffff",
+      itemSelectedBg: "#e9feff", //
+      itemSelectedColor: "#f87171",
     },
     Tabs: {
       inkBarColor: "#f87171",

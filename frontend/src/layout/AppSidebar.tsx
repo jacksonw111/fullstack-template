@@ -1,46 +1,34 @@
-import { UserOutlined } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 
 const { Sider } = Layout;
 
+import { router } from "@/routes";
+import { dynamicRouters, getMenus, replaceRoutes } from "@/routes/routes";
 import { useGlobalStore } from "@/stores/useGlobalStore";
-import { HomeOutlined, SettingOutlined, TeamOutlined } from "@ant-design/icons";
 import { MenuProps } from "antd";
 import clsx from "clsx";
-// import { RiRobot2Line } from "react-icons/ri";
-import { NavLink, useLocation } from "react-router-dom";
-
-const menuItems: MenuProps["items"] = [
-  {
-    key: "home",
-    icon: <HomeOutlined />,
-    label: <NavLink to="/">首页</NavLink>,
-  },
-  {
-    key: "agents",
-    icon: <TeamOutlined />,
-    label: <NavLink to="/agents">代理</NavLink>,
-  },
-  {
-    key: "settings",
-    icon: <SettingOutlined />,
-    label: <NavLink to="/settings">设置</NavLink>,
-  },
-  {
-    key: "accounts",
-    icon: <UserOutlined />,
-    label: <NavLink to="/accounts" >账户</NavLink>,
-  },
-  {
-    key: "chatbot",
-    label: <NavLink to="/chatbot">聊天机器人</NavLink>,
-  },
-];
+import { useLocation } from "react-router-dom";
 
 const Sidebar: React.FC = () => {
-  const { sidebar_collapse } = useGlobalStore();
+  const { sidebar_collapse, current_user } = useGlobalStore();
   const location = useLocation();
+
+  const menuItems: MenuProps["items"] = getMenus(
+    dynamicRouters,
+    current_user?.permissions || []
+  );
+
+  console.log(location.pathname.split("/"));
+
+  useEffect(() => {
+    if (current_user && current_user.permissions) {
+      replaceRoutes(current_user.permissions);
+      router.navigate(`${location.pathname}${location.search}`, {
+        replace: true,
+      });
+    }
+  }, [current_user]);
 
   return (
     <Sider
@@ -69,8 +57,8 @@ const Sidebar: React.FC = () => {
       <Menu
         mode="inline"
         defaultSelectedKeys={["home"]}
-        items={menuItems}
-        selectedKeys={[location.pathname.split("/")[1] || "home"]}
+        items={menuItems || []}
+        subMenuCloseDelay={0}
       />
     </Sider>
   );

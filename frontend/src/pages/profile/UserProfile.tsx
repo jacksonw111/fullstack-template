@@ -3,9 +3,10 @@ import { UserRoundPen } from "lucide-react";
 import { useState } from "react";
 const { Password } = Input;
 
-const UserProfile = () => {
+const UserProfile = (data: any) => {
   const [editProfile, setEditProfile] = useState(false);
-  const [form] = Form.useForm();
+
+  const [form] = Form.useForm(data.current_user);
   const onFinish = () => {
     console.log(form.getFieldsValue());
   };

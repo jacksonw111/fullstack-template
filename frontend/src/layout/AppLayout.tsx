@@ -1,13 +1,26 @@
+import current from "@/api/current";
 import { useGlobalStore } from "@/stores/useGlobalStore";
+import { useQuery } from "@tanstack/react-query";
 import { Layout } from "antd";
 import { AnimatePresence, m } from "framer-motion";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import AppHeader from "./AppHeader";
 import Sidebar from "./AppSidebar";
 
 const { Content } = Layout;
 const AppLayout = () => {
   const location = useLocation();
+  const { setCurrentUser } = useGlobalStore();
+  
+  useQuery({
+    queryKey: ["current_user"],
+    queryFn: async () => {
+      const data = await current.getCurrentUser();
+      setCurrentUser(data as any);
+      return data;
+    },
+  });
+
   return (
     <Layout className="flex">
       <Sidebar />

@@ -1,3 +1,4 @@
+import { router } from "@/routes";
 import UserList from "./components/UserList";
 
 const UserIndexPage = () => {

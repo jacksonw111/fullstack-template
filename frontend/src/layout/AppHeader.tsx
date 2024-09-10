@@ -1,20 +1,21 @@
-import current from "@/api/current";
 import Logout from "@/pages/profile/Logout";
 import UserProfile from "@/pages/profile/UserProfile";
 import { useGlobalStore } from "@/stores/useGlobalStore";
-import { useQuery } from "@tanstack/react-query";
 import { Avatar, Dropdown, Layout } from "antd";
 import { AlignLeft, AlignRight } from "lucide-react";
 import { Navigate } from "react-router-dom";
 const { Header } = Layout;
 
 const AppHeader = () => {
-  const { access_token, toggleCollapsed, sidebar_collapse } = useGlobalStore();
+  const {
+    access_token,
+    toggleCollapsed,
+    sidebar_collapse,
+    setCurrentUser,
+    current_user,
+  } = useGlobalStore();
+
   if (!access_token) return <Navigate to="/login" />;
-  const { data } = useQuery({
-    queryKey: ["current_user"],
-    queryFn: () => current.getCurrentUser(),
-  });
 
   return (
     <Header className="h-16 bg-transparent flex items-center justify-center shadow pl-4">
@@ -32,7 +33,7 @@ const AppHeader = () => {
             items: [
               {
                 key: "1",
-                label: <UserProfile />,
+                label: <UserProfile data={current_user} />,
               },
               {
                 key: "2",

@@ -5,9 +5,9 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useMemo } from "react";
 import { useLoaderData, useSearchParams } from "react-router-dom";
 import { queryUserList, userLoader } from "../loader";
+import { useMemo } from "react";
 
 const UserList = () => {
   const initialData = useLoaderData() as Awaited<
@@ -18,33 +18,31 @@ const UserList = () => {
     ...queryUserList(params),
     initialData,
   });
-  if (isLoading) return <div>Loading...</div>;
 
-  const columns = useMemo(
-    () => [
-      {
-        header: "姓名",
-        accessorKey: "name",
-      },
-      {
-        header: "邮箱",
-        accessorKey: "email",
-      },
-      {
-        header: "角色",
-        accessorKey: "role",
-        cell: ({ getValue }: { getValue: () => { name: string } }) =>
-          getValue().name,
-      },
-      {
-        header: "状态",
-        accessorKey: "status",
-      },
-      {
-        header: "最后活跃时间",
-        accessorKey: "last_active_at",
-        cell: ({ getValue }: { getValue: () => string }) =>
-          new Date(getValue()).toLocaleString(),
+  const columns = useMemo(() => [
+    {
+      header: "姓名",
+      accessorKey: "name",
+    },
+    {
+      header: "邮箱",
+      accessorKey: "email",
+    },
+    {
+      header: "角色",
+      accessorKey: "role",
+      cell: ({ getValue }: { getValue: () => { name: string } }) =>
+        getValue().name,
+    },
+    {
+      header: "状态",
+      accessorKey: "status",
+    },
+    {
+      header: "最后活跃时间",
+      accessorKey: "last_active_at",
+      cell: ({ getValue }: { getValue: () => string }) =>
+        new Date(getValue()).toLocaleString(),
       },
     ],
     []
@@ -54,7 +52,9 @@ const UserList = () => {
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
-  
+
+  if (isLoading) return <div>Loading...</div>;
+
   return (
     <div>
       <div className="h-[calc(100vh-10rem)] shadow bg-white p-2 rounded overflow-scroll">

@@ -12,10 +12,11 @@ export const router = createBrowserRouter([
   {
     path: "/",
     Component: AppLayout,
-    children: [],
-  },
-  {
-    path: "*",
-    Component: NotFoundIndexPage,
+    children: [
+      {
+        path: "*",
+        Component: NotFoundIndexPage,
+      },
+    ],
   },
 ]);
