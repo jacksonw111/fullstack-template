@@ -26,8 +26,8 @@ class User(BaseSQLModel, RecordeSQLModel, table=True):
     email: EmailStr = Field(unique=True, index=True, sa_type=AutoString)
     password: str
     password_salt: str
-    gender: UserGender = Field(nullable=False)
-    current_role_id: UUID = Field(nullable=False),
+    gender: str = Field(nullable=False)
+    current_role_id: UUID = Field(nullable=False)
 
     last_login_at: Optional[datetime] = None
     last_login_ip: Optional[IPvAnyAddress] = Field(default=None, sa_type=AutoString)

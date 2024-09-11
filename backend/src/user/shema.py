@@ -26,7 +26,7 @@ class UserCreate(UserSchema):
 class UserUpdate(SQLModel):
     name: str | None = None
     email: str | None = None
-    password: str | None = None
+    gender: str | None = None
 
 
 class UserResponse(SQLModel):
@@ -34,6 +34,7 @@ class UserResponse(SQLModel):
     name: str
     email: str
     status: str
+    gender: str
     created_at: datetime
     updated_at: datetime
     role: Role

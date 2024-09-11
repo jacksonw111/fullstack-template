@@ -1,3 +1,4 @@
+import logging
 from uuid import UUID
 from fastapi import Depends, HTTPException
 from redis import Redis
@@ -19,6 +20,7 @@ class PermissionsDependency(object):
 
     def __call__(self, user=Depends(get_current_active_user)):
         if not self.permissions.issubset(user.permissions):
+            logging.error(f"user has no permission {self.permissions}")
             raise HTTPException(status_code=401, detail="permission deny")
 
 

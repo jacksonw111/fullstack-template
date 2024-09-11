@@ -1,4 +1,6 @@
+import { listRoles } from "@/api/role";
 import { UserCreate, UserUpdate } from "@/api/user";
+import { useQuery } from "@tanstack/react-query";
 import { Button, Form, Input, Select } from "antd";
 import React from "react";
 
@@ -17,10 +19,17 @@ const UserForm: React.FC<UserFormProps> = ({
 }) => {
   const [form] = Form.useForm();
 
+  const { data: roleData, isLoading: isRoleLoading } = useQuery({
+    queryKey: ["roles"],
+    queryFn: () => listRoles(),
+  });
+
+  if (isRoleLoading) return <div>加载中...</div>;
+  console.log(initialValues);
+
   const handleSubmit = (values: UserCreate | UserUpdate) => {
     onSubmit(values);
   };
-
   return (
     <Form
       form={form}
@@ -68,7 +77,6 @@ const UserForm: React.FC<UserFormProps> = ({
         <Select>
           <Option value="male">男</Option>
           <Option value="female">女</Option>
-          <Option value="other">其他</Option>
         </Select>
       </Form.Item>
 
@@ -77,10 +85,13 @@ const UserForm: React.FC<UserFormProps> = ({
         label="当前角色"
         rules={[{ required: true, message: "请选择当前角色" }]}
       >
-        <Select>
-          <Option value="admin">管理员</Option>
-          <Option value="user">普通用户</Option>
-        </Select>
+        <Select
+          loading={isRoleLoading}
+          options={roleData?.data.items.map((role) => ({
+            value: role.id,
+            label: role.name,
+          }))}
+        />
       </Form.Item>
 
       <Form.Item>

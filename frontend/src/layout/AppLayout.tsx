@@ -24,9 +24,9 @@ const AppLayout = () => {
   return (
     <Layout className="flex">
       <Sidebar />
-      <Content className="bg-white">
+      <Content className="bg-white h-screen overflow-auto">
         <AppHeader />
-        <Content className="p-3 ">
+        <Content className="p-3">
           <AnimatePresence mode="wait" key={location.pathname}>
             <m.div
               initial={{ opacity: 0, y: 20 }}

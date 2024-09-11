@@ -30,23 +30,23 @@ const UserProfile = (data: any) => {
           setEditProfile(false);
         }}
       >
-        <Form form={form}>
-          <Form.Item label="Username">
+        <Form form={form} labelCol={{ span: 6 }} layout="vertical">
+          <Form.Item label="用户名" name="username">
             <Input />
           </Form.Item>
-          <Form.Item label="Email">
+          <Form.Item label="邮箱" name="email">
             <Input />
           </Form.Item>
-          <Form.Item label="Phone Number">
+          <Form.Item label="电话号码" name="phoneNumber">
             <Input />
           </Form.Item>
-          <Form.Item label="Gender">
+          <Form.Item label="性别" name="gender">
             <Select>
-              <Select.Option value="male">Male</Select.Option>
+              <Select.Option value="male">男</Select.Option>
               <Select.Option value="female">女</Select.Option>
             </Select>
           </Form.Item>
-          <Form.Item label="password">
+          <Form.Item label="密码" name="password">
             <Password />
           </Form.Item>
         </Form>

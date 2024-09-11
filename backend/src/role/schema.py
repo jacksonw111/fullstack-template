@@ -5,7 +5,7 @@ from sqlmodel import SQLModel
 
 class RoleBase(SQLModel):
     name: str
-    permissions: List[UUID]
+    permissions: List[str]
 
 
 class RoleCreate(RoleBase):

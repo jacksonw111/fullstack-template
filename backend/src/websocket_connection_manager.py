@@ -101,33 +101,3 @@ class WebsocketManager:
             except (WebSocketDisconnect, websockets.exceptions.ConnectionClosedOK) as e:
                 logging.error(f"Error: WebSocket disconnected or closed({str(e)})")
                 await self.disconnect(connection)
-
-
-# websockets
-
-
-# async def process_socket_message(data: dict, websocket: WebSocket, client_id: str):
-#     print(f"Client says: {data['type']}")
-#     if data["type"] == "user_message":
-#         user_message = Message(**data["data"])
-#         session_id = data["data"].get("session_id", None)
-#         workflow_id = data["data"].get("workflow_id", None)
-#         response = await run_session_workflow(message=user_message, session_id=session_id, workflow_id=workflow_id)
-#         response_socket_message = {
-#             "type": "agent_response",
-#             "data": response,
-#             "connection_id": client_id,
-#         }
-#         await websocket_manager.send_message(response_socket_message, websocket)
-
-
-# @api.websocket("/ws/{client_id}")
-# async def websocket_endpoint(websocket: WebSocket, client_id: str):
-#     await websocket_manager.connect(websocket, client_id)
-#     try:
-#         while True:
-#             data = await websocket.receive_json()
-#             await process_socket_message(data, websocket, client_id)
-#     except WebSocketDisconnect:
-#         print(f"Client #{client_id} is disconnected")
-#         await websocket_manager.disconnect(websocket)

@@ -1,6 +1,11 @@
+import RoleAdd from "./components/RoleAdd";
+import RoleList from "./components/RoleList";
+
 const RoleIndexPage = () => {
   return (
-    <div>RoleIndexPage</div>
-  )
-}
-export default RoleIndexPage
+    <div className="space-y-4">
+      <RoleList />
+    </div>
+  );
+};
+export default RoleIndexPage;

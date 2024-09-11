@@ -20,7 +20,6 @@ const Sidebar: React.FC = () => {
     current_user?.permissions || []
   );
 
-  console.log(location.pathname.split("/"));
 
   useEffect(() => {
     if (current_user && current_user.permissions) {

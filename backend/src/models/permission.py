@@ -11,7 +11,7 @@ class PermissionType(str, Enum):
     DASHBOARD_DELETE = "dashboard:delete"
     USER_VIEW = "user:view"
     USER_ADD = "user:add"
-    USER_UPDATE = "user:add"
+    USER_UPDATE = "user:update"
     USER_DELETE = "user:delete"
     ROLE_VIEW = "role:view"
     ROLE_ADD = "role:add"
@@ -24,7 +24,7 @@ class PermissionType(str, Enum):
 
 class RolePermission(BaseSQLModel, RecordeSQLModel, table=True):
     role_id: UUID
-    permission: PermissionType
+    permission: str
 
     __table_args__ = (
         UniqueConstraint("role_id", "permission", name="uq_role_permission"),

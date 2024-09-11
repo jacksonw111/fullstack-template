@@ -9,9 +9,12 @@ export interface UserSchema {
 export interface UserCreate extends UserSchema {}
 
 export interface UserUpdate {
-  name?: string;
-  email?: string;
-  password?: string;
+  name: string;
+  gender: string;
+  email: string;
+  // password: string;
+  role: RoleResponse;
+  // password?: string;
 }
 
 export interface UserResponse {
@@ -19,6 +22,8 @@ export interface UserResponse {
   name: string;
   email: string;
   status: string;
+  gender: string;
+  role: RoleResponse;
   created_at: Date;
   updated_at: Date;
 }
@@ -35,6 +40,7 @@ export const validateUserSchema = (user: UserSchema): boolean => {
 };
 
 import api from "@/utils/request";
+import { RoleResponse } from "./role";
 
 const BASE_URL = "/service/users";
 
@@ -43,15 +49,16 @@ const createUser = async (userData: UserCreate): Promise<UserResponse> => {
   return data;
 };
 
-const getUsers = async (
-  params: URLSearchParams
-): Promise<{ total: number; users: UserResponse[] }> => {
+const getUsers = async (pagination: {
+  skip: number;
+  limit: number;
+}): Promise<{ total: number; users: UserResponse[] }> => {
   // const skip = params.get("skip") ? Number(params.get("skip")) : 0;
   // const limit = params.get("limit") ? Number(params.get("limit")) : 10;
   const { data } = await api.get<{ total: number; users: UserResponse[] }>(
     BASE_URL,
     {
-      params,
+      params: pagination,
     }
   );
   return data;

@@ -109,14 +109,15 @@ class UserService(BaseService):
             ],
         }
 
-    async def update(self, id: UUID, user_update: UserUpdate):
-        user = await self.get_by(id)
+    async def update(self, user_id: UUID, user_update: UserUpdate):
+        user = await self.get_by(user_id)
         for name, value in user_update.model_dump().items():
-            setattr(user, name, value)
+            if hasattr(user, name):
+                setattr(user, name, value)
         await self.session.flush()
         await self.session.commit()
 
-    async def remove(self, id: UUID):
-        await self.session.delete(await self.get_by(id))
+    async def remove(self, user_id: UUID):
+        await self.session.delete(await self.get_by(user_id))
         await self.session.flush()
         await self.session.commit()

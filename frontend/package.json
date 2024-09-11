@@ -13,6 +13,7 @@
     "@tanstack/react-table": "^8.20.5",
     "antd": "^5.20.3",
     "axios": "^1.7.5",
+    "chart.js": "^4.4.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.5.2",

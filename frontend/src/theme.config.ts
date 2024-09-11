@@ -4,9 +4,9 @@ const theme: ThemeConfig = {
   components: {
     Layout: {
       bodyBg: "#f0f0f0",
-      siderBg: "#f0f0f0", // 例如 '#f0f0f0' 为浅灰色
+      siderBg: "#fafafa", // 例如 '#f0f0f0' 为浅灰色
     },
-    
+
     Menu: {
       activeBarBorderWidth: 0,
       itemBg: "transparent",

@@ -1,9 +1,9 @@
 import user from "@/api/user";
 import { keepPreviousData, QueryClient } from "@tanstack/react-query";
 
-export const queryUserList = (params: URLSearchParams) => ({
-  queryKey: ["users", params],
-  queryFn: () => user.getUsers(params),
+export const queryUserList = (pagination: { skip: number; limit: number }) => ({
+  queryKey: ["users", pagination],
+  queryFn: () => user.getUsers(pagination),
   placeholderData: keepPreviousData,
   staleTime: 50 * 1000 * 5,
   refetchOnWindowFocus: true,
@@ -12,5 +12,7 @@ export const queryUserList = (params: URLSearchParams) => ({
 
 export const userLoader = (queryClient: QueryClient) => async () => {
   const params = new URLSearchParams(window.location.search);
-  return queryClient.fetchQuery(queryUserList(params));
+  const skip = Number(params.get("skip") as string) || 0;
+  const limit = Number(params.get("limit") as string) || 10;
+  return queryClient.fetchQuery(queryUserList({ skip, limit }));
 };
