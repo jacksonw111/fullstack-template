@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ConfigProvider } from "antd";
+import { ConfigProvider, Skeleton } from "antd";
 import { LazyMotion, domAnimation } from "framer-motion";
 import { Suspense } from "react";
 import RouterProviderComponent from "./routes/router";
@@ -10,8 +10,8 @@ const App = () => {
   return (
     <Suspense
       fallback={
-        <div className="w-screen h-screen flex item-center justify-center">
-          加载中....
+        <div className="w-screen h-screen flex item-center justify-center p-10">
+          <Skeleton active paragraph={{ rows: 6 }} />
         </div>
       }
     >
