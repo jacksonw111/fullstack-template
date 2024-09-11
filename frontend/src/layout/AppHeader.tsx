@@ -18,7 +18,7 @@ const AppHeader = () => {
   if (!access_token) return <Navigate to="/login" />;
 
   return (
-    <Header className="h-16 bg-transparent flex items-center justify-center shadow pl-4">
+    <Header className="h-16 bg-transparent flex items-center justify-center pl-4">
       <div
         onClick={toggleCollapsed}
         className="text-2xl cursor-pointer text-gray-500"

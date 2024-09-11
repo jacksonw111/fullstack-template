@@ -11,8 +11,10 @@ interface LoginFormValues {
 
 const LoginIndexPage: React.FC = () => {
   const navigate = useNavigate();
-  const { setAccessToken, setRefreshToken } = useGlobalStore();
-
+  const { setAccessToken, setRefreshToken, access_token } = useGlobalStore();
+  if (access_token) {
+    navigate("/");
+  }
   const onFinish = async (values: LoginFormValues) => {
     try {
       const formData = new FormData();
@@ -20,7 +22,7 @@ const LoginIndexPage: React.FC = () => {
       formData.append("password", values.password);
 
       const response = await auth.login(formData);
-      console.log(response)
+      console.log(response);
       setAccessToken(response.access_token);
       setRefreshToken(response.refresh_token);
 
@@ -72,7 +74,7 @@ const LoginIndexPage: React.FC = () => {
         </Form>
       </div>
       <div className="w-1/2 h-screen">
-        <img src={image} alt="" className="w-full h-screen"/>
+        <img src={image} alt="" className="w-full h-screen" />
       </div>
     </div>
   );

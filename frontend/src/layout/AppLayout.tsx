@@ -24,7 +24,7 @@ const AppLayout = () => {
   return (
     <Layout className="flex">
       <Sidebar />
-      <Content className="bg-white rounded-2xl">
+      <Content className="bg-white">
         <AppHeader />
         <Content className="p-3 ">
           <AnimatePresence mode="wait" key={location.pathname}>

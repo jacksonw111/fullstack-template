@@ -4,11 +4,12 @@ import React, { useEffect } from "react";
 const { Sider } = Layout;
 
 import { router } from "@/routes";
-import { dynamicRouters, getMenus, replaceRoutes } from "@/routes/routes";
+import { dynamicRouters } from "@/routes/routes";
 import { useGlobalStore } from "@/stores/useGlobalStore";
 import { MenuProps } from "antd";
 import clsx from "clsx";
 import { useLocation } from "react-router-dom";
+import { getMenus, replaceRoutes } from "@/routes/utils";
 
 const Sidebar: React.FC = () => {
   const { sidebar_collapse, current_user } = useGlobalStore();
@@ -59,6 +60,7 @@ const Sidebar: React.FC = () => {
         defaultSelectedKeys={["home"]}
         items={menuItems || []}
         subMenuCloseDelay={0}
+        selectedKeys={location.pathname.split("/").slice(1)}
       />
     </Sider>
   );
