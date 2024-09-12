@@ -1,9 +1,10 @@
 import auth from "@/api/auth";
 import image from "@/assets/image.png";
 import { useGlobalStore } from "@/stores/useGlobalStore";
-import { Button, Form, Input, message } from "antd";
+import { Button, Form, Input } from "antd";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 interface LoginFormValues {
   email: string;
   password: string;
@@ -26,11 +27,25 @@ const LoginIndexPage: React.FC = () => {
       setAccessToken(response.access_token);
       setRefreshToken(response.refresh_token);
 
-      message.success("登录成功");
+      toast.success("登录成功", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
       navigate("/");
     } catch (error) {
       console.error("登录失败:", error);
-      message.error("登录失败，请检查您的邮箱和密码");
+      toast.error("登录失败，请检查您的邮箱和密码", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
 

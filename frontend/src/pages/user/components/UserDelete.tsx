@@ -2,6 +2,7 @@ import user from "@/api/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button, Popconfirm, message } from "antd";
 import { UserX } from "lucide-react";
+import { toast } from "react-toastify";
 
 interface UserDeleteProps {
   userId: string;
@@ -14,10 +15,24 @@ const UserDelete: React.FC<UserDeleteProps> = ({ userId }) => {
     mutationFn: () => user.deleteUser(userId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
-      message.success("用户删除成功");
+      toast.success("用户删除成功", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     },
     onError: (error) => {
-      message.error(`删除用户失败: ${error.message}`);
+      toast.error(`删除用户失败: ${error.message}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     },
   });
 

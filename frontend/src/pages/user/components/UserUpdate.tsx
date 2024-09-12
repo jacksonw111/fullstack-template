@@ -1,8 +1,9 @@
 import user, { UserCreate, UserUpdate as UserUpdateType } from "@/api/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Button, Modal, message } from "antd";
+import { Button, Modal } from "antd";
 import { UserPenIcon } from "lucide-react";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import UserForm from "./UserForm";
 
 const UserUpdate = ({
@@ -20,11 +21,25 @@ const UserUpdate = ({
       user.updateUser(userId, updatedUser),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
-      message.success("用户更新成功");
+      toast.success("用户更新成功", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
       setIsModalVisible(false);
     },
     onError: (error) => {
-      message.error(`更新用户失败: ${error.message}`);
+      toast.error(`更新用户失败: ${error.message}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     },
   });
 
@@ -42,7 +57,11 @@ const UserUpdate = ({
 
   return (
     <>
-      <Button onClick={showModal} type="primary" icon={<UserPenIcon size={16}/>}>
+      <Button
+        onClick={showModal}
+        type="primary"
+        icon={<UserPenIcon size={16} />}
+      >
         Update User
       </Button>
       <Modal

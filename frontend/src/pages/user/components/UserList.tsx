@@ -9,13 +9,13 @@ import {
   Updater,
   useReactTable,
 } from "@tanstack/react-table";
+import { Button } from "antd";
 import { useMemo, useState } from "react";
 import { queryUserList } from "../loader";
 import UserDelete from "./UserDelete";
 import UserUpdate from "./UserUpdate";
 
 const UserList = () => {
-  // const [params] = useSearchParams();
   const [pagination, setPagination] = useState({
     skip: 0,
     limit: 10,
@@ -23,9 +23,6 @@ const UserList = () => {
   const { data, isLoading } = useQuery({
     ...queryUserList(pagination),
   });
-
-  // const [skip, setSkip] = useState(0);
-  // const [limit, setLimit] = useState(10);
 
   const columns = useMemo(
     () => [
@@ -79,12 +76,13 @@ const UserList = () => {
     },
     manualPagination: true,
     onPaginationChange: (updater: Updater<PaginationState>) => {
-      const newPagination = typeof updater === 'function'
-        ? updater({
-            pageIndex: pagination.skip,
-            pageSize: pagination.limit,
-          })
-        : updater;
+      const newPagination =
+        typeof updater === "function"
+          ? updater({
+              pageIndex: pagination.skip,
+              pageSize: pagination.limit,
+            })
+          : updater;
       setPagination({
         skip: newPagination.pageIndex,
         limit: newPagination.pageSize,
@@ -134,23 +132,23 @@ const UserList = () => {
       {data?.total === 0 && <p className="text-center mt-4">暂无账户数据</p>}
       <div className="flex justify-end mt-4">
         <div className="flex items-center space-x-2">
-          <button
+          <Button
+            type="primary"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
-            className="px-2 py-1 text-sm font-medium text-gray-700 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
           >
             上一页
-          </button>
+          </Button>
           <span className="text-sm text-gray-700">
             {table.getState().pagination.pageIndex + 1} / {table.getPageCount()}
           </span>
-          <button
+          <Button
+            type="primary"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
-            className="px-2 py-1 text-sm font-medium text-gray-700 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
           >
             下一页
-          </button>
+          </Button>
         </div>
       </div>
     </div>

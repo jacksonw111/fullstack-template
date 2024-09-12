@@ -1,8 +1,9 @@
 import { createRole, RoleCreate } from "@/api/role";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Button, message, Modal } from "antd";
+import { Button, Modal } from "antd";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import RoleForm from "./RoleForm";
 
 const RoleAdd: React.FC = () => {
@@ -14,11 +15,25 @@ const RoleAdd: React.FC = () => {
     mutationFn: (newRole: RoleCreate) => createRole(newRole),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["roles"] });
-      message.success("角色创建成功");
+      toast.success("角色创建成功", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
       setIsModalVisible(false);
     },
     onError: (error) => {
-      message.error(`创建角色失败: ${error.message}`);
+      toast.error(`创建角色失败: ${error.message}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     },
   });
 

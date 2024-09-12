@@ -1,7 +1,8 @@
 import { getRole, RoleUpdate as RoleUpdateType, updateRole } from "@/api/role";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Button, message, Modal, Skeleton } from "antd";
+import { Button, Modal, Skeleton } from "antd";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import RoleForm from "./RoleForm";
 
 const RoleUpdate = ({ roleId }: { roleId: string }) => {
@@ -13,11 +14,25 @@ const RoleUpdate = ({ roleId }: { roleId: string }) => {
       updateRole(roleId, updatedRole),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["roles"] });
-      message.success("角色更新成功");
+      toast.success("角色更新成功", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
       setIsModalVisible(false);
     },
     onError: (error) => {
-      message.error(`更新角色失败: ${error.message}`);
+      toast.error(`更新角色失败: ${error.message}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     },
   });
 

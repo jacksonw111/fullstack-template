@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Modal, message } from 'antd';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteRole } from '@/api/role';
+import { toast } from 'react-toastify';
 
 interface RoleDeleteProps {
   roleId: string;
@@ -14,12 +15,26 @@ const RoleDelete: React.FC<RoleDeleteProps> = ({ roleId }) => {
   const deleteRoleMutation = useMutation({
     mutationFn: () => deleteRole(roleId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['roles'] });
-      message.success('角色删除成功');
+      queryClient.invalidateQueries({ queryKey: ["roles"] });
+      toast.success("角色删除成功", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
       setIsModalVisible(false);
     },
     onError: (error) => {
-      message.error(`删除角色失败: ${error.message}`);
+      toast.error(`删除角色失败: ${error.message}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     },
   });
 

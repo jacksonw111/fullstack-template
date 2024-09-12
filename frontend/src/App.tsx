@@ -2,9 +2,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ConfigProvider, Skeleton } from "antd";
 import { LazyMotion, domAnimation } from "framer-motion";
 import { Suspense } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import RouterProviderComponent from "./routes/router";
 import theme from "./theme.config";
-
 const client = new QueryClient();
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <QueryClientProvider client={client}>
           <LazyMotion features={domAnimation}>
             <RouterProviderComponent />
+            <ToastContainer />
           </LazyMotion>
         </QueryClientProvider>
       </ConfigProvider>

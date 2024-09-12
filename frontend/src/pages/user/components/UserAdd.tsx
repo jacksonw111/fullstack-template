@@ -1,8 +1,9 @@
 import user, { UserCreate, UserUpdate } from "@/api/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Button, message, Modal } from "antd";
+import { Button, Modal } from "antd";
 import { UserPlusIcon } from "lucide-react";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import UserForm from "./UserForm";
 
 const UserAdd = () => {
@@ -12,11 +13,25 @@ const UserAdd = () => {
     mutationFn: (newUser: UserCreate) => user.createUser(newUser),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
-      message.success("用户创建成功");
+      toast.success("用户创建成功", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
       setIsModalVisible(false);
     },
     onError: (error) => {
-      message.error(`创建用户失败: ${error.message}`);
+      toast.error(`创建用户失败: ${error.message}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     },
   });
 
