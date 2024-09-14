@@ -20,6 +20,9 @@ class Setting(BaseSettings):
     ISS: str
     SUB: str
 
+    # twitter
+    TWITTER_BASE_URL: str = "https://x.com/i/api"
+
     # APIKEY for connection
     APIKEY: str
     LLM_API_URL: str

@@ -1,8 +1,9 @@
 import { MenuProps } from "antd";
+import { lazy } from "react";
 import { DataRouteObject, NavLink, RouteObject } from "react-router-dom";
 import { router } from ".";
 import { DynamicRoute, dynamicRouters } from "./routes";
-
+const NotFoundIndexPage = lazy(() => import("@/pages/error/NotFoundIndexPage"));
 export function getMenus(
   routes: DynamicRoute[],
   permissions: string[]
@@ -14,7 +15,7 @@ export function getMenus(
 
     if (
       route.handle?.permission &&
-      !permissions.includes(route.handle.permission) 
+      !permissions.includes(route.handle.permission)
     ) {
       return null;
     }
@@ -62,7 +63,13 @@ export const addRoutes = (
 export const replaceRoutes = (permissions: string[]) => {
   const index = router.routes.findIndex((it) => it.path === "/");
   if (index !== -1 && router.routes[index]?.children) {
-    router.routes[index].children = [];
+    router.routes[index].children = [
+      {
+        id: "not-found",
+        path: "*",
+        Component: NotFoundIndexPage,
+      },
+    ];
     router.routes[index].children.push(
       ...addRoutes(dynamicRouters, permissions)
     );
